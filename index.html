@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Получение Наград</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      padding: 15px 30px;
+      margin: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #ads, #result, #telegram {
+      margin-top: 30px;
+    }
+    #ads button {
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добро пожаловать!</h1>
+  <button onclick="startAds('script')">Получить скрипт</button>
+  <button onclick="startAds('train')">Получить 1 поезд и 3 класса</button>  <div id="ads"></div>
+  <div id="result"></div>
+  <div id="telegram"></div>  <script>
+    let adClicks = 0;
+    let currentAction = '';
+
+    function startAds(action) {
+      adClicks = 0;
+      currentAction = action;
+      document.getElementById('result').innerHTML = '';
+      document.getElementById('telegram').innerHTML = '';
+
+      const adsDiv = document.getElementById('ads');
+      adsDiv.innerHTML = <p>Посмотрите 5 реклам, чтобы получить ${action === 'script' ? 'скрипт' : '1 поезд и 3 класса'}</p>;
+
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = Смотреть рекламу #${i};
+        btn.onclick = function () {
+          adClicks++;
+          btn.disabled = true;
+          checkAdsComplete();
+        };
+        adsDiv.appendChild(btn);
+      }
+    }
+
+    function checkAdsComplete() {
+      if (adClicks >= 5) {
+        document.getElementById('ads').innerHTML = '';
+        if (currentAction === 'script') {
+          document.getElementById('result').innerHTML = `
+            <h2>Поздравляем! Вы получили скрипт!</h2>
+            <pre>// Ваш скрипт здесь
+alert('Ваш скрипт готов!');
+</pre>`;} else if (currentAction === 'train') {
+      document.getElementById('result').innerHTML = `
+        <h2>Вы получили 1 поезд и 3 класса!</h2>
+        <button onclick="window.location.href='https://t.me/ваш_телеграмм'">Перейти в Telegram</button>
+      `;
+    }
+  }
+}
+
+  </script>
+</body>
+</html>
